@@ -1,5 +1,5 @@
 import {IUsers} from './interfaceUser'
-async function reqUsers() {
+async function reqUsers(): Promise<IUsers | void> {
 
     try {
         const res: Response = await fetch('https://dummyjson.com/users', {
@@ -10,9 +10,11 @@ async function reqUsers() {
             throw new Error(err)
         }
         const resJson: IUsers = await res.json()
-        if (!isUsers(resJson)) {
-            throw new Error('Этот объект не соответствует интерфейсу IUsers')
+
+        if (isUsers(resJson)) {
+            return resJson
         }
+
     } catch (e) {
         console.log(e)
     }
